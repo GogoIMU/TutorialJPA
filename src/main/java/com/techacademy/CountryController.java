@@ -22,6 +22,8 @@ public class CountryController {
     public String getList(Model model) {
         // 全件検索結果をModelに登録
         model.addAttribute("countrylist", service.getCountryList());
+        model.addAttribute("message1", "詳細");
+        model.addAttribute("message2", "削除");
         // country/list.htmlに画面遷移
         return "country/list";
     }
@@ -34,6 +36,7 @@ public class CountryController {
         Country country = code != null ? service.getCountry(code) : new Country();
         // Modelに登録
         model.addAttribute("country", country);
+        model.addAttribute("url3", "/country/list");
         // country/detail.htmlに画面遷移
         return "country/detail";
     }
@@ -44,21 +47,24 @@ public class CountryController {
             @RequestParam("population") int population, Model model) {
         // 更新（追加）
         service.updateCountry(code, name, population);
-
         // 一覧画面にリダイレクト
         return "redirect:/country/list";
     }
 
     // ----- 削除画面 -----
-    @GetMapping("/delete")
-    public String deleteCountryForm(Model model) {
+    @GetMapping("/delete/{code}/")
+    public String deleteCountryForm(@PathVariable(name = "code") String code,Model model) {
+        // パスパラメータの値を設定
+        model.addAttribute("code", code);
+        model.addAttribute("url3", "/country/list");
         // country/delete.htmlに画面遷移
         return "country/delete";
     }
 
     // ----- 削除 -----
-    @PostMapping("/delete")
+    @PostMapping("/delete/{code}/")
     public String deleteCountry(@RequestParam("code") String code, Model model) {
+        model.addAttribute("code",code);
         // 削除
         service.deleteCountry(code);
 
