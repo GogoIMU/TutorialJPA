@@ -36,7 +36,6 @@ public class CountryController {
         Country country = code != null ? service.getCountry(code) : new Country();
         // Modelに登録
         model.addAttribute("country", country);
-        model.addAttribute("url3", "/country/list");
         // country/detail.htmlに画面遷移
         return "country/detail";
     }
@@ -56,7 +55,6 @@ public class CountryController {
     public String deleteCountryForm(@PathVariable(name = "code") String code,Model model) {
         // パスパラメータの値を設定
         model.addAttribute("code", code);
-        model.addAttribute("url3", "/country/list");
         // country/delete.htmlに画面遷移
         return "country/delete";
     }
